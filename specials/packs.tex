@@ -1,0 +1,96 @@
+%Dem jeg ved jeg bruger%%%%%%%%%%%%%%%%%%
+\makeatletter
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+% \usepackage[danish]{babel} %dansk orddeling og overskrifter
+\usepackage{indentfirst} %indents i starten af paragrapher
+\geometry{
+  a4paper,
+  total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ %\usepackage{apacite}%citations
+ \usepackage{url}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \newcommand{\sd}[1]{\textsubscript{#1}}
+ \newcommand{\su}[1]{\textsuperscript{#1}}
+ \usepackage[makeroom]{cancel}
+\usepackage{pgfplots, pgfplotstable}%plots
+\pgfplotsset{
+axis lines = left,
+width=0.8\linewidth,
+height =0.4\textwidth,
+compat = newest,
+grid = both,
+grid style={line width=.1pt, draw=gray!10},
+minor tick num=5,
+major grid style={line width=.2pt,draw=gray!50},
+legend style={cells={align=center}}
+}%define standert plot peramiters
+\pgfkeys{
+     /pgf/number format/.cd,% <- changes the prefix for the following options
+     1000 sep={}
+  }
+\usepackage{plimsoll}%stander state symbol
+\usetikzlibrary{fpu}
+\usepackage{fp}
+\pgfkeys{/pgf/fpu/output format=float}
+%siljas magi%%%%%%%%%%%%%%
+\usepackage{amsmath}
+
+\usepackage{mathtools} %ligninger og den slags
+\usepackage{graphicx} %indsætning af billeder og indstillinger til disse
+\usepackage{amssymb} %stor pakke af symboler til matematikken
+\usepackage{setspace} %indstilling af linjeafstand
+%\usepackage[left=3cm,right=3cm,top=3.5cm,bottom=3cm]{geometry} %indstilling af margener
+%\usepackage[table]{xcolor} %mulighed for farvede felter i skemaer
+\usepackage{float}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{circuitikz}
+\usepackage{caption}
+\usepackage{textcomp}\usepackage{titlesec}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+\usetikzlibrary{circuits.logic.US} % TiKZ Library for US Logic Circuits.
+\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
+\lstset{language=VHDL}
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true,numbers=none}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage[justification=centering]{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{comment}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[space]{grffile}
+% \newcommand{\Mypm}{\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.1ex] \draw (0.0,0) -- (1.0,0) (0.5,0.08) -- (0.5,0.92) (0.0,0.5) -- (1.0,0.5);}}%
+% \setlength{\parindent}{0em}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+
+\usepackage[minimal = false,formula = {chemformula}]{chemmacros}
+\usepackage{chemformula}
+\usepgfplotslibrary{patchplots}
+\tikzset{
+  ctrlpoint/.style={%
+    draw=black,
+    circle,
+    inner sep=0.1,
+    minimum width=0.4ex,
+    fill=black
+  }
+}
+\DeclareRobustCommand{\vol}{\text{\volumedash}V}
+\newcommand{\volumedash}{%
+  \makebox[0pt][l]{%
+    \ooalign{\hfil\hphantom{$\m@th V$}\hfil\cr\kern0.08em--\hfil\cr}%
+  }%
+}
+\makeatother
+\usepackage{placeins}

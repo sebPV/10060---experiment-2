@@ -1,0 +1,303 @@
+%\pgfkeys{/pgf/number format/.cd,precision=2}
+\newcommand{\Bjerrum}[3]{
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}[
+        declare function={
+        f(\x) = 1/(exp(-#1*ln(10)+\x*ln(10))+1);
+        }
+        ]
+      \begin{axis}[
+        axis lines = left,
+        xlabel = \(pH\),
+        ylabel = {\(x_s\)},
+        ]
+        \addplot [
+        domain=0:14, 
+        samples=100, 
+        color=red,
+        ]
+        {f(x)};
+      \end{axis}
+    \end{tikzpicture}
+    \caption{bjerrumdiagram af #2}
+    #3
+  \end{center}
+\end{figure}
+}
+
+\newcommand{\BjerrumS}[4]{
+% 1# = pks
+% 2# = name
+% 3# = lable
+% 4# = selektet pH
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}[
+        declare function={
+        f(\x) = 1/(exp(-#1*ln(10)+\x*ln(10))+1);
+        }
+        ]
+      \begin{axis}[
+        axis lines = left,
+        xlabel = \(pH\),
+        ylabel = {\(x_s\)},
+        ]
+        \addplot [
+        domain=0:14, 
+        samples=100, 
+        color=red,
+        ]
+        {f(x)};
+         \addplot +[
+         mark=none, 
+         color=blue,
+         samples = 1,
+         dashed
+         ]
+         coordinates {(#4, 0) (#4, {f(#4)})};
+         \addplot +[
+         mark=none, 
+         color=blue,
+         samples = 1,
+         dashed
+         ]
+         coordinates {(0, {f(#4)}) (#4, {f(#4)})};
+        \addplot[mark=*] coordinates {(0,{f(#4)})} node[pin=45:{\(x_s =\pgfmathparse{f(#4)} \pgfmathresult\)}]{} ;
+      \end{axis}
+    \end{tikzpicture}
+    \caption{bjerrumdiagram af #2}
+    #3
+  \end{center}
+\end{figure}
+}
+
+\newcommand{\Gibbs}[3]{
+% #1 = data
+% #2 = caption
+% #3 = lable
+\pgfplotstableread{#1}\data
+\CalRsqrt{\data}{x}{y}
+
+
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+        xlabel = \(T{[K]}\),
+        ylabel = {\(\Delta_rG^{\stst}{[kJ/mols]}\)},]
+         \addplot[red, only marks]
+         table[x = x, y = y] {\data};
+         \addplot[dashed,blue] table[
+            x = x,
+            y = {create col/linear regression={y=y}}
+        ] {\data};
+
+        \addlegendentry{Data}
+\addlegendentry{
+    Tendens linje: $ y =
+    \pgfmathprintnumber{\pgfplotstableregressiona}
+    \cdot x
+    \pgfmathprintnumber[print sign]{\pgfplotstableregressionb}$,\\ \(R^2 =\) {\Rsquared}
+};
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{#2}
+    #3
+\end{center}
+\end{figure}
+}
+\newcommand{\Arrhenius}[3]{
+% #1 = data set
+% #2 = caption
+% #3 = lable
+\pgfplotstableread{#1}\data
+
+\pgfplotstablecreatecol[create col/assign/.code={
+       \pgfmathparse{(\thisrow{x}^(-1))}
+       \edef\entry{\pgfmathresult}
+       \pgfkeyslet{/pgfplots/table/create col/next content}\entry
+    } ]{invT}{\data}
+\pgfplotstablecreatecol[create col/assign/.code={
+       \pgfmathparse{ln(\thisrow{y})}
+       \edef\entry{\pgfmathresult}
+       \pgfkeyslet{/pgfplots/table/create col/next content}\entry
+    } ]{lnK}{\data}
+    
+\CalRsqrt{\data}{invT}{lnK}
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+        xlabel = \(T^{-1} {[K^{-1}]} \),
+        ylabel = {\(\ln(K)\)},]
+         \addplot[red, only marks]
+         table[x = invT, y = lnK] {\data};
+         \addplot[dashed,blue] table[
+            x = invT,
+            y = {create col/linear regression={y=lnK}}
+        ] {\data};
+
+        \addlegendentry{Data}
+\addlegendentry{
+    Tendens linje: $ y =
+    \pgfmathprintnumber{\pgfplotstableregressiona}
+    \cdot x
+    \pgfmathprintnumber[print sign]{\pgfplotstableregressionb}$,\\ \(R^2 =\) {\Rsquared}
+};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{#2}
+    #3
+\end{center}
+\end{figure}
+}
+\newcommand{\inthast}[3]{
+\pgfplotstableread{#1}\data   
+    \begin{figure}[H]
+    \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+        \CalRsqrt{\data}{x}{y}
+        \centering
+        \begin{tikzpicture}
+        \begin{axis}[
+        xlabel = \(t {[min]} \),
+        ylabel = {\({[#2]} {[M]}\)},
+        width=1\linewidth,
+        height =0.8\linewidth,
+        legend style={at={(0,-0.2)},anchor=north west}]
+         \addplot[red, only marks]
+         table[x = x, y = y] {\data};
+         \addplot[dashed,blue] table[
+            x = x,
+            y = {create col/linear regression={y=y}}
+        ] {\data};
+        \addlegendentry{Data}
+        \addlegendentry{
+            Tendens linje: $ y =
+            \pgfmathprintnumber{\pgfplotstableregressiona}
+            \cdot x
+            \pgfmathprintnumber[print sign]{\pgfplotstableregressionb}$,\\ \(R^2 =\) {\Rsquared}
+        };
+        \end{axis}
+    \end{tikzpicture}
+        \caption{0. ordens hastigheds plot for #2}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \CalRsqrt{\data}{x}{lnC}
+        \centering
+        \begin{tikzpicture}
+        \begin{axis}[
+        xlabel = \(t {[min]} \),
+        ylabel = {\(ln({[#2]}) \)},
+        width=1\linewidth,
+        height =0.8\linewidth,
+        legend style={at={(0,-0.2)},anchor=north west}]
+         \addplot[red, only marks]
+         table[x = x, y = lnC] {\data};
+         \addplot[dashed,blue] table[
+            x = x,
+            y = {create col/linear regression={y=lnC}}
+        ] {\data};
+        \addlegendentry{Data}
+        \addlegendentry{
+            Tendens linje: $ y =
+            \pgfmathprintnumber{\pgfplotstableregressiona}
+            \cdot x
+            \pgfmathprintnumber[print sign]{\pgfplotstableregressionb}$,\\ \(R^2 =\) {\Rsquared}
+        };
+        \end{axis}
+    \end{tikzpicture}
+        \caption{1. ordens hastigheds plot for #2}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \CalRsqrt{\data}{x}{invC}
+        \centering
+        \begin{tikzpicture}
+        \begin{axis}[
+        xlabel = \(t {[min]} \),
+        ylabel = {\({[#2]}^{-1} {[M^{-1}]}\)},
+        width=1\linewidth,
+        height =0.8\linewidth,
+        legend style={at={(0,-0.2)},anchor=north west}]
+         \addplot[red, only marks]
+         table[x = x, y = invC] {\data};
+         \addplot[dashed,blue] table[
+            x = x,
+            y = {create col/linear regression={y=invC}}
+        ] {\data};
+        \addlegendentry{Data}
+        \addlegendentry{
+            Tendens linje: $ y =
+            \pgfmathprintnumber{\pgfplotstableregressiona}
+            \cdot x
+            \pgfmathprintnumber[print sign]{\pgfplotstableregressionb}$,\\ \(R^2 =\) {\Rsquared}
+        };
+        \end{axis}
+    \end{tikzpicture}
+        \caption{2. ordens hastigheds plot for #2}
+        \end{subfigure}
+        \caption{integrerede hastighedsudtryk for #2}
+    \end{figure}
+
+}
+
+
+
+
+
+\newcommand{\CalRsqrt}[3]{
+% #1 = data set 
+% #2 = x col navn
+% #3 = y col navn
+% create the regression column:
+\pgfplotstablecreatecol[linear regression={x=#2,y=#3}]{regression}{#1}
+
+% store slope and intercept
+\edef\slope{\pgfplotstableregressiona}
+\edef\intercept{\pgfplotstableregressionb}
+% calculate sum of y2
+\pgfplotstablecreatecol[create col/expr={\pgfmathaccuma+\thisrow{#3}}]{cumy}{#1}
+
+% find number of rows in table
+\pgfplotstablegetrowsof{#1}
+\pgfmathtruncatemacro{\lastrow}{\pgfplotsretval-1}
+
+% get total sum of y2
+\pgfplotstablegetelem{\lastrow}{cumy}\of#1
+
+% calculate mean
+\pgfmathsetmacro{\yMean}{\pgfplotsretval/(\lastrow+1)}
+
+% calculate residuals and diff from mean
+\pgfplotstablecreatecol[
+  create col/assign/.code={
+       \pgfmathparse{(\thisrow{#3}-\thisrow{regression})^2}
+       \edef\entry{\pgfmathresult}
+       \pgfkeyslet{/pgfplots/table/create col/next content}\entry
+    }
+]{residuals}{#1}
+
+\pgfplotstablecreatecol[
+  create col/assign/.code={
+       \pgfmathparse{(\thisrow{#3}-\yMean)^2}
+       \edef\entry{\pgfmathresult}
+       \pgfkeyslet{/pgfplots/table/create col/next content}\entry
+    }
+]{diffmean}{#1}
+
+% calculate sum of residuals and diff from mean
+\pgfplotstablecreatecol[create col/expr={\pgfmathaccuma+\thisrow{residuals}}]{sumres}{#1}
+\pgfplotstablecreatecol[create col/expr={\pgfmathaccuma+\thisrow{diffmean}}]{sumdiff}{#1}
+% extract SS_res and SS_tot
+\pgfplotstablegetelem{\lastrow}{sumres}\of#1
+\pgfmathsetmacro{\SSres}{\pgfplotsretval}
+\pgfplotstablegetelem{\lastrow}{sumdiff}\of#1
+\pgfmathsetmacro{\SStot}{\pgfplotsretval}
+
+% calculate R^2
+\pgfmathsetmacro{\Rsquared}{1-\SSres/\SStot}
+}

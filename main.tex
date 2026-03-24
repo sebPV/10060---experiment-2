@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\input{specials/packs.tex}
+%title and stuff%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Titel}{document tittel}
+\newcommand{\Forfatter}{Sebastian Patursson Vange, s237237\\
+xxx, sxxxxxx\\
+xxx, sxxxxxx}
+\newcommand{\Dato}{Febuar 2026}
+\newcommand{\Fag}{10060 Physics}
+\newcommand{\Opgave}{Experiment 1}
+% \newcommand{\Vejleder}{lære/vejleder}
+%page setups%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{specials/FormalHeader.tex}
+
+ \reversemarginpar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\U}[1]{\ensuremath{\ \mathrm{#1}}}
+\usepackage{subfiles}
+\begin{document}
+\input{specials/forside.tex}
+\clearpage
+\subfile{ExperimentSetup}
+\subfile{DataAnalasys}
+\subfile{Discussion}
+\end{document}
