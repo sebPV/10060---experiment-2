@@ -1,0 +1,38 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Introduction}
+\subsection{Question}
+Determine the the relation between place, velocity, acceleration, and time in a model with constant acceleration.
+
+\subsection{Dimensional analysis}
+We will analyze this model:
+$$
+s=f(t,v,a)
+$$
+We define the dimension symbols
+$$
+\tau=t
+$$
+$$
+\lambda=v\cdot t
+$$
+And then we define the dimensions of our physical quantities.
+$$
+a=\dfrac{\lambda}{\tau^2}
+$$
+$$
+v=\dfrac{\lambda}{\tau} = \dfrac{t}{v\cdot t}
+$$
+$$
+s=\lambda = v\cdot t
+$$
+\begin{align*}   
+\dfrac{s}{\lambda}&=f\left(\dfrac{t}{\tau},\dfrac{v}{\lambda\tau^{-1}},\dfrac{a}{\lambda\tau^{-2}}\right)\\
+\dfrac{s}{v\cdot t}&=f\left(\dfrac{t}{t},\dfrac{v}{vt\cdot t^{-1}},\dfrac{a}{vt\cdot t^{-2}}\right)\\
+\dfrac{s}{v\cdot t}&=f\left(1,1,\dfrac{a}{vt^{-1}}\right)\\
+\dfrac{s}{v\cdot t}&=f\left(\dfrac{at}{v}\right)
+\end{align*}
+\subsection{Hypothesis}
+We hypothesize that the final formula for the distance will be
+$\mathbf{s(t) = \dfrac{1}{2} \cdot a \cdot t^2 + v_0 \cdot t}$
+\end{document}
