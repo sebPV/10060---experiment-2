@@ -6,7 +6,7 @@ ylabel = {$y$},
 height =0.5\linewidth, 
 width = 0.75\linewidth, 
 legend style = {at={(0.05,0.95)},anchor = {north west}} 
- ]\addplot[blue,]     
+ ]\addplot[blue,mark=*, only marks,]     
  table{% 
 1.7634281489496164 1.1599751000226362
 3.287752954936846 4.650291992945503
@@ -17,7 +17,7 @@ legend style = {at={(0.05,0.95)},anchor = {north west}}
 2.582459253925923 3.2138117662721215
 2.2396793526099863 2.805891770791592
 }; 
-\addplot[red,]     
+\addplot[red,dashed,]     
  table{% 
 1.7634281489496164 1.5649098222151654
 3.287752954936846 4.743537381908263
@@ -28,7 +28,7 @@ legend style = {at={(0.05,0.95)},anchor = {north west}}
 2.582459253925923 3.272810154413387
 2.2396793526099863 2.5580217858503915
 }; 
-\legend{Data,\Pi_1 \cdot2.085-2.112}
+\legend{Data,$\Pi_1 \cdot2.085-2.112$}
 
     \end{axis}
 \end{tikzpicture}
